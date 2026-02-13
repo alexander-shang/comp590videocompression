@@ -1,0 +1,11 @@
+[package]
+name = "assgn1"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+anyhow = "1.0.100"
+ffmpeg-sidecar = "2.4"
+workspace_root = "0.2.0"
+bitbit = "0.2.0"
+toy_ac = {path = "../toy-ac"}

@@ -1,4 +1,4 @@
 [workspace]
 resolver = "3"
-members = ["toy-ac"]
+members = [ "assgn1","toy-ac", "toy-player/tauri-app/src-tauri"]
 

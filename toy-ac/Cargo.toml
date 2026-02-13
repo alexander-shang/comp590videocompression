@@ -1,5 +1,5 @@
 [package]
-name = "toy-ac"
+name = "toy_ac"
 version = "0.1.0"
 edition = "2024"
 

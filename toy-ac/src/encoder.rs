@@ -7,7 +7,8 @@ use bitbit::BitWriter;
 pub struct Encoder {
     range: Range,
     pending: u32,
-    finished: bool
+    finished: bool,
+    bits_written: u64
 }
 
 impl Encoder {
@@ -15,7 +16,8 @@ impl Encoder {
         Self {
             range: Range::new(32),
             pending: 0,
-            finished: false
+            finished: false,
+            bits_written: 0
         }
     }
 
@@ -38,19 +40,26 @@ impl Encoder {
         self.range.reduce(new_high, new_low);
         if self.range.hob_match() {
             let is_one = self.range.shift_hob();
+
             output.write_bit(is_one).unwrap();
+            self.bits_written += 1;
+
             for _ in 0..self.pending {
                 output.write_bit(!is_one).unwrap();
+                // We don't increment written counter when pending bits 
+                // actually written. Already accounted for when pending counter increments.
             }
             self.pending = 0;
             while self.range.hob_match() {
                 output.write_bit(self.range.shift_hob()).unwrap();
+                self.bits_written += 1;
             }
         }
         assert!(!self.range.hob_match());
         while self.range.in_middle() {
             self.range.shift_sob();
             self.pending += 1;
+            self.bits_written += 1;
         }
     }
 
@@ -68,12 +77,18 @@ impl Encoder {
         // writing out a 1, plus any pending bits as 0, followed by 31 more zeroes.
 
         output.write_bit(true)?;
+        self.bits_written += 1;
         for _ in 0..self.pending+31 {
             output.write_bit(false)?;
+            self.bits_written += 1;
         }
 
         self.finished = true;
         Ok(())
+    }
+
+    pub fn bits_written(&self) -> u64 {
+        return self.bits_written;
     }
 }
 
