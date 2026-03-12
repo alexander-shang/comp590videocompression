@@ -14,7 +14,7 @@ The final prediction is the average of the two: `(spatial + temporal) / 2`. The 
 Rather than using a single probability model for all pixels, I use 8 contexts selected by local activity level, well within the 256-context limit. This allows smooth regions to build a tight probability distribution centered near zero without being diluted by the broader distribution of high-activity regions, and vice versa.
 
 ## Compression Ratios:
-bourne.mp4 - 5.08
-blueval.mp4 - 6.88
-cocomelon.mp4 - 12.52
-drewgooden.mp4 - 4.18
+1. bourne.mp4 - 5.08
+2. blueval.mp4 - 6.88
+3. cocomelon.mp4 - 12.52
+4. drewgooden.mp4 - 4.18
